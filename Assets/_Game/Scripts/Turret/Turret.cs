@@ -92,7 +92,7 @@ public class Turret : MonoBehaviour
 
     private void ShootCurrentTarget()
     {
-        if (currentTarget == null) return;
+        if (currentTarget == null || currentTarget.HasFinishedPath()) return;
 
         Debug.Log("Turret shooting enemy: " + currentTarget.gameObject.name);
         currentTarget.GetHit(damage);

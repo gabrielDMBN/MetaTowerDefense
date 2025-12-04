@@ -212,4 +212,9 @@ public class Enemy : MonoBehaviour
 
         material.SetColor("_EmissionColor", baseEmission * 1f);
     }
+    
+    public bool HasFinishedPath()
+    {
+        return finishedPath;
+    }
 }
