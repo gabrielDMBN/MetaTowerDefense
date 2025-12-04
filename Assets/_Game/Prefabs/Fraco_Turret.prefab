@@ -252,18 +252,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac654ca5df8bdab408b08e2a2de7dc38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5
-  damage: 10
+  range: 3.5
+  damage: 4
   fireRate: 1
-  particlePrefab: {fileID: 8824308405466797574, guid: 41ae012f00b2cdb4b9e6997e3d0e0ccf, type: 3}
-  firePoint:
-  - {fileID: 2266550554761577187}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  particlePrefab: {fileID: 8824308405466797574, guid: 41ae012f00b2cdb4b9e6997e3d0e0ccf, type: 3}
+  firePoints:
+  - {fileID: 2266550554761577187}
   turretHead: {fileID: 693696877354141316}
   turretJoint: {fileID: 9082640862927864702}
   rotationLerpSpeed: 5
+  GizmosColor: {r: 0, g: 0.041937828, b: 1, a: 1}
 --- !u!1 &5698259076429570810
 GameObject:
   m_ObjectHideFlags: 0

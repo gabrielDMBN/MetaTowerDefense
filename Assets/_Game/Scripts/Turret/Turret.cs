@@ -17,6 +17,10 @@ public class Turret : MonoBehaviour
     [SerializeField] private Transform turretJoint;
     [SerializeField] private float rotationLerpSpeed = 5f;
 
+    [Header("Color")]
+    [SerializeField] private Color GizmosColor = Color.gray;
+    
+    
     private float fireCountdown = 0f;
     private SphereCollider rangeTrigger;
 
@@ -48,6 +52,8 @@ public class Turret : MonoBehaviour
         // Se temos alvo, rotacionar a cabeça
         if (currentTarget != null)
         {
+            Debug.Log("Turret tracking enemy: " + currentTarget.gameObject.name);
+            
             RotateHeadTowards(currentTarget.transform.position);
 
             // Se ainda estiver dentro do range, atira
@@ -59,11 +65,6 @@ public class Turret : MonoBehaviour
                     ShootCurrentTarget();
                     fireCountdown = 1f / fireRate;
                 }
-            }
-            else
-            {
-                // Saiu do range por qualquer motivo
-                currentTarget = null;
             }
         }
     }
@@ -114,11 +115,14 @@ public class Turret : MonoBehaviour
     {
         // Layer mask
         if ((enemyLayer.value & (1 << other.gameObject.layer)) == 0) return;
-
-        // Pega o Enemy mesmo que esteja no pai do collider
+        
         var enemy = other.GetComponentInParent<Enemy>();
-        if (enemy == null) return;
-
+        if (enemy == null)
+        {
+            Debug.Log("Turret OnTriggerEnter: No Enemy component found in " + other.gameObject.name);
+            return;
+        }
+        
         Debug.Log("Turret OnTriggerEnter: " + enemy.gameObject.name);
         currentTarget = enemy;
     }
@@ -140,7 +144,7 @@ public class Turret : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = GizmosColor;
         Gizmos.DrawWireSphere(transform.position, range);
     }
 }
