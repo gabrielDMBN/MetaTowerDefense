@@ -93,7 +93,7 @@ public class Enemy : MonoBehaviour
         _nextHitToken++;
         int token = _nextHitToken;
         _hitTokens[mat] = token;
-        StartCoroutine(HitIndicatorForMaterial(mat, token));
+        //StartCoroutine(HitIndicatorForMaterial(mat, token));
     }
 
     yield break;
