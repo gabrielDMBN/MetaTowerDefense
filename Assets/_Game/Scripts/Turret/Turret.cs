@@ -44,28 +44,30 @@ public class Turret : MonoBehaviour
         if (sc != null)
             sc.radius = range;
     }
+    
 
-    void Update()
+    private void Update()
     {
-        fireCountdown -= Time.deltaTime;
+        // se não tem alvo, não faz nada
+        if (currentTarget == null) return;
 
-        // Se temos alvo, rotacionar a cabeça
-        if (currentTarget != null)
+        // gira a cabeça da torre
+        RotateHeadTowards(currentTarget.transform.position);
+
+        // countdown do tiro
+        if (fireCountdown <= 0f)
         {
-            Debug.Log("Turret tracking enemy: " + currentTarget.gameObject.name);
-            
-            RotateHeadTowards(currentTarget.transform.position);
+            ShootCurrentTarget();          // aqui você chama o método que já existe
+            fireCountdown = 1f / fireRate; // ex.: fireRate = 1 -> 1 tiro por segundo
+        }
 
-            // Se ainda estiver dentro do range, atira
-            float dist = Vector3.Distance(turretJoint.position, currentTarget.transform.position);
-            if (dist <= range)
-            {
-                if (fireCountdown <= 0f)
-                {
-                    ShootCurrentTarget();
-                    fireCountdown = 1f / fireRate;
-                }
-            }
+        fireCountdown -= Time.deltaTime;
+        
+        //se apertar T, toma dano
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log("Turret manual shoot");
+            SpawnParticleEffect();
         }
     }
 
@@ -115,16 +117,19 @@ public class Turret : MonoBehaviour
     {
         // Layer mask
         if ((enemyLayer.value & (1 << other.gameObject.layer)) == 0) return;
-        
+    
         var enemy = other.GetComponentInParent<Enemy>();
         if (enemy == null)
         {
             Debug.Log("Turret OnTriggerEnter: No Enemy component found in " + other.gameObject.name);
             return;
         }
-        
+    
         Debug.Log("Turret OnTriggerEnter: " + enemy.gameObject.name);
         currentTarget = enemy;
+
+        // 🔥 garante que o primeiro tiro seja imediato
+        fireCountdown = 0f;
     }
 
     private void OnTriggerExit(Collider other)
@@ -142,7 +147,7 @@ public class Turret : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = GizmosColor;
         Gizmos.DrawWireSphere(transform.position, range);

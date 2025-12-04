@@ -67,24 +67,33 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator WalkPath()
     {
+        if (paths == null || paths.Count == 0) yield break;
+
         for (int i = 0; i < paths.Count; i++)
         {
-            yield return new WaitForSeconds(timePerTile);
-
+            // Move imediatamente para o tile
             Vector3 target = paths[i].transform.position;
             Vector3 current = transform.position;
             transform.position = new Vector3(target.x, current.y, target.z);
 
-            //acabou o caminho
-            if (i == paths.Count - 1)
+            bool isLast = (i == paths.Count - 1);
+
+            // Fica 1 segundo (timePerTile) nesse tile
+            float elapsed = 0f;
+            while (elapsed < timePerTile)
+            {
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            // Se for o último tile, só depois de 1s termina o caminho
+            if (isLast)
             {
                 finishedPath = true;
                 animator.SetBool("End", true);
                 PointsUI.instance.MoveToCenter();
             }
         }
-        
-        
     }
     
     public void GetHit(int damage)
