@@ -1,22 +1,31 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
+    [Header("Ataque")]
     [SerializeField] private float range = 5f;
     [SerializeField] private int damage = 10;
     [SerializeField] private float fireRate = 1f;
-    [SerializeField] private GameObject particlePrefab;
-    [SerializeField] private List<Transform> firePoint;
     [SerializeField] private LayerMask enemyLayer;
 
+    [Header("Partículas")]
+    [SerializeField] private GameObject particlePrefab;
+    [SerializeField] private Transform[] firePoints;
+
+    [Header("Rotação")]
+    [SerializeField] private GameObject turretHead;
+    [SerializeField] private Transform turretJoint;
+    [SerializeField] private float rotationLerpSpeed = 5f;
+
     private float fireCountdown = 0f;
-    private readonly HashSet<Collider> enemiesInRange = new HashSet<Collider>();
     private SphereCollider rangeTrigger;
+
+    // Como só existe 1 inimigo, guardamos só um alvo
+    private Enemy currentTarget;
 
     void Awake()
     {
-        // garante que exista um SphereCollider configurado como trigger para detectar entradas/saídas
+        // Garante um SphereCollider como trigger de alcance
         rangeTrigger = GetComponent<SphereCollider>();
         if (rangeTrigger == null)
             rangeTrigger = gameObject.AddComponent<SphereCollider>();
@@ -27,7 +36,6 @@ public class Turret : MonoBehaviour
 
     void OnValidate()
     {
-        // mantém o raio do trigger sincronizado no editor
         var sc = GetComponent<SphereCollider>();
         if (sc != null)
             sc.radius = range;
@@ -36,66 +44,98 @@ public class Turret : MonoBehaviour
     void Update()
     {
         fireCountdown -= Time.deltaTime;
-        if (fireCountdown <= 0f)
+
+        // Se temos alvo, rotacionar a cabeça
+        if (currentTarget != null)
         {
-            if (enemiesInRange.Count > 0)
+            RotateHeadTowards(currentTarget.transform.position);
+
+            // Se ainda estiver dentro do range, atira
+            float dist = Vector3.Distance(turretJoint.position, currentTarget.transform.position);
+            if (dist <= range)
             {
-                Shoot();
-                fireCountdown = 1f / fireRate;
+                if (fireCountdown <= 0f)
+                {
+                    ShootCurrentTarget();
+                    fireCountdown = 1f / fireRate;
+                }
+            }
+            else
+            {
+                // Saiu do range por qualquer motivo
+                currentTarget = null;
             }
         }
     }
 
-    private void Shoot()
+    private void RotateHeadTowards(Vector3 targetPos)
     {
-        // remove entradas inválidas
-        enemiesInRange.RemoveWhere(c => c == null || c.gameObject == null);
+        if (turretHead == null || turretJoint == null) return;
 
-        if (enemiesInRange.Count == 0) return;
+        // Direção do joint até o alvo
+        Vector3 dir = targetPos - turretJoint.position;
 
-        // escolhe o primeiro alvo válido (pode trocar para o mais próximo se desejar)
-        Collider targetCollider = null;
-        foreach (var c in enemiesInRange)
-        {
-            targetCollider = c;
-            break;
-        }
+        // Trava rotação só no plano horizontal (eixo Y)
+        dir.y = 0f;
+        if (dir.sqrMagnitude < 0.0001f) return;
 
-        if (targetCollider == null) return;
+        Quaternion targetRot = Quaternion.LookRotation(dir);
 
-        Enemy enemy = targetCollider.GetComponent<Enemy>();
-        if (enemy != null)
-        {
-            enemy.GetHit(damage);
-        }
+        // Lerp suave da rotação da cabeça
+        turretHead.transform.rotation = Quaternion.Lerp(
+            turretHead.transform.rotation,
+            targetRot,
+            rotationLerpSpeed * Time.deltaTime
+        );
+    }
+
+    private void ShootCurrentTarget()
+    {
+        if (currentTarget == null) return;
+
+        Debug.Log("Turret shooting enemy: " + currentTarget.gameObject.name);
+        currentTarget.GetHit(damage);
 
         SpawnParticleEffect();
     }
 
     private void SpawnParticleEffect()
     {
-        if (particlePrefab != null && firePoint != null)
+        if (particlePrefab == null || firePoints == null) return;
+
+        foreach (var point in firePoints)
         {
-            foreach (var point in firePoint)
-            {
-                Instantiate(particlePrefab, point.position, point.rotation, point);
-            }
+            if (point == null) continue;
+            Instantiate(particlePrefab, point.position, point.rotation, point);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // verifica se a layer do objeto bate com a LayerMask
+        // Layer mask
         if ((enemyLayer.value & (1 << other.gameObject.layer)) == 0) return;
 
-        // adiciona somente se realmente tiver um collider (o próprio 'other' é um collider)
-        enemiesInRange.Add(other);
+        // Pega o Enemy mesmo que esteja no pai do collider
+        var enemy = other.GetComponentInParent<Enemy>();
+        if (enemy == null) return;
+
+        Debug.Log("Turret OnTriggerEnter: " + enemy.gameObject.name);
+        currentTarget = enemy;
     }
 
     private void OnTriggerExit(Collider other)
     {
         if ((enemyLayer.value & (1 << other.gameObject.layer)) == 0) return;
-        enemiesInRange.Remove(other);
+
+        var enemy = other.GetComponentInParent<Enemy>();
+        if (enemy == null) return;
+
+        Debug.Log("Turret OnTriggerExit: " + enemy.gameObject.name);
+
+        if (currentTarget == enemy)
+        {
+            currentTarget = null;
+        }
     }
 
     private void OnDrawGizmosSelected()

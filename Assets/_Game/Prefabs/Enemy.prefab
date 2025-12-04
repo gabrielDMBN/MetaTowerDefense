@@ -5693,6 +5693,7 @@ GameObject:
   - component: {fileID: 1863312377046112969}
   - component: {fileID: 6860901589490462127}
   - component: {fileID: 6202429072061977412}
+  - component: {fileID: 5439674038915649273}
   m_Layer: 6
   m_Name: MeshOffset
   m_TagString: Untagged
@@ -5766,6 +5767,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.4, y: 1, z: 1.4}
   m_Center: {x: 0.0034722916, y: 0.5, z: -0.00000018339891}
+--- !u!54 &5439674038915649273
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3020982270550829951}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &3068667215944322376
 GameObject:
   m_ObjectHideFlags: 0

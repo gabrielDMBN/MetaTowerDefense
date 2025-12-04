@@ -111,12 +111,13 @@ Transform:
   m_GameObject: {fileID: 1850280543714120350}
   serializedVersion: 2
   m_LocalRotation: {x: 0.00000008712268, y: -0, z: -0.0000000038295873, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.493, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1742361872255525279}
   - {fileID: 8885498181118641537}
+  - {fileID: 7744293110829752602}
   m_Father: {fileID: 3936942372235402690}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2039135096445440762
@@ -205,6 +206,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3240035994597700493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5670199308059950070}
+  m_Layer: 0
+  m_Name: Joint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5670199308059950070
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3240035994597700493}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.0026666669, y: 0.51173335, z: 0.011199713}
+  m_LocalScale: {x: 1.3333334, y: 1.3333334, z: 1.3333334}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3936942372235402690}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4423470032828006840
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +248,6 @@ GameObject:
   - component: {fileID: 3936942372235402690}
   - component: {fileID: 2996751540848331885}
   - component: {fileID: 71370778249624264}
-  - component: {fileID: 2427316345000841958}
   m_Layer: 0
   m_Name: mesh
   m_TagString: Untagged
@@ -237,8 +268,8 @@ Transform:
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 5670199308059950070}
   - {fileID: 3705623872850862254}
-  - {fileID: 7744293110829752602}
   m_Father: {fileID: 3755260875183189573}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2996751540848331885
@@ -294,28 +325,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2427316345000841958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4423470032828006840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac654ca5df8bdab408b08e2a2de7dc38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  range: 5
-  damage: 10
-  fireRate: 1
-  particlePrefab: {fileID: 8824308405466797574, guid: 41ae012f00b2cdb4b9e6997e3d0e0ccf, type: 3}
-  firePoint:
-  - {fileID: 6154635431344920598}
-  - {fileID: 4785594666300481741}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &4697048774124163277
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,6 +365,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3755260875183189573}
+  - component: {fileID: 8154153684294188355}
   m_Layer: 0
   m_Name: Medio_Turret
   m_TagString: Untagged
@@ -379,6 +389,31 @@ Transform:
   - {fileID: 3936942372235402690}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8154153684294188355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4790198248008822636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac654ca5df8bdab408b08e2a2de7dc38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 5
+  damage: 10
+  fireRate: 1
+  particlePrefab: {fileID: 8824308405466797574, guid: 41ae012f00b2cdb4b9e6997e3d0e0ccf, type: 3}
+  firePoint:
+  - {fileID: 6154635431344920598}
+  - {fileID: 4785594666300481741}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  turretHead: {fileID: 1850280543714120350}
+  turretJoint: {fileID: 5670199308059950070}
+  rotationLerpSpeed: 5
 --- !u!1 &4865855533532180869
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,14 +438,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4865855533532180869}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1943, y: 0.7563, z: 0.7342}
+  m_LocalRotation: {x: -0.00000008712268, y: -0, z: 0.0000000038295873, w: 1}
+  m_LocalPosition: {x: 0.19430014, y: 0.2563001, z: 0.7341999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6154635431344920598}
   - {fileID: 4785594666300481741}
-  m_Father: {fileID: 3936942372235402690}
+  m_Father: {fileID: 3705623872850862254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6313827722090904179
 GameObject:

@@ -126,6 +126,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6207035212663790168}
+  - component: {fileID: 1840097412120652932}
   m_Layer: 0
   m_Name: Forte_Turret
   m_TagString: Untagged
@@ -149,6 +150,32 @@ Transform:
   - {fileID: 5512479848664388299}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1840097412120652932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3216340031415586539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac654ca5df8bdab408b08e2a2de7dc38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 5
+  damage: 10
+  fireRate: 1
+  particlePrefab: {fileID: 8824308405466797574, guid: 41ae012f00b2cdb4b9e6997e3d0e0ccf, type: 3}
+  firePoint:
+  - {fileID: 762757247909596329}
+  - {fileID: 8043128632929796990}
+  - {fileID: 2957924994600671600}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  turretHead: {fileID: 4535000217542439320}
+  turretJoint: {fileID: 1193980283085678890}
+  rotationLerpSpeed: 5
 --- !u!1 &3751099042221719112
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,6 +262,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4103061135107494295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1193980283085678890}
+  m_Layer: 0
+  m_Name: Joint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1193980283085678890
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4103061135107494295}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.496, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5512479848664388299}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4535000217542439320
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +487,6 @@ GameObject:
   - component: {fileID: 5512479848664388299}
   - component: {fileID: 3444027188818766897}
   - component: {fileID: 7783076365240313974}
-  - component: {fileID: 5474595172640453607}
   m_Layer: 0
   m_Name: mesh
   m_TagString: Untagged
@@ -451,6 +508,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1786454382455904382}
+  - {fileID: 1193980283085678890}
   m_Father: {fileID: 6207035212663790168}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3444027188818766897
@@ -506,29 +564,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5474595172640453607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7949218001212485500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac654ca5df8bdab408b08e2a2de7dc38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  range: 5
-  damage: 10
-  fireRate: 1
-  particlePrefab: {fileID: 8824308405466797574, guid: 41ae012f00b2cdb4b9e6997e3d0e0ccf, type: 3}
-  firePoint:
-  - {fileID: 762757247909596329}
-  - {fileID: 8043128632929796990}
-  - {fileID: 2957924994600671600}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &8890390661696655025
 GameObject:
   m_ObjectHideFlags: 0
