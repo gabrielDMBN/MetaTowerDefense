@@ -15,6 +15,8 @@ public class PointsUI : MonoBehaviour
     
     [SerializeField] private Material fontMaterial;
     [SerializeField] private float rainbowSpeed = 0.6f;
+    
+    [SerializeField] private Transform centerCameraPoint;
 
     private Vector3 _initialScale;
     private Quaternion _initialRotation;
@@ -131,5 +133,36 @@ public class PointsUI : MonoBehaviour
 
             yield return null;
         }
+    }
+    
+    private IEnumerator MoveToCenterCoroutine()
+    {
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = centerCameraPoint.position;
+
+        Vector3 startScale = transform.localScale;
+        Vector3 targetScale = _initialScale * 2f; // aumenta até 50% do tamanho inicial
+
+        float duration = 0.5f;
+        float t = 0f;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float normalized = Mathf.Clamp01(t / duration);
+
+            transform.position = Vector3.Lerp(startPos, targetPos, normalized);
+            transform.localScale = Vector3.Lerp(startScale, targetScale, normalized);
+
+            yield return null;
+        }
+
+        transform.position = targetPos;
+        transform.localScale = targetScale;
+    }
+    
+    public void MoveToCenter()
+    {
+        StartCoroutine(MoveToCenterCoroutine());
     }
 }
