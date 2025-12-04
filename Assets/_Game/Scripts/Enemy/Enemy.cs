@@ -50,7 +50,7 @@ public class Enemy : MonoBehaviour
         
     }
     
-    private void GetHit(int damage)
+    public void GetHit(int damage)
     {
         if (finishedPath) return;
         
